@@ -98,14 +98,14 @@ def show_progress_in_console(progress):
         progress), end='')
 
 def get_ov_save_path(stack_name, ov_number, slice_counter):
-    return ('overviews\\ov' + str(ov_number).zfill(OV_DIGITS) + '\\'
+    return ('overviews/ov' + str(ov_number).zfill(OV_DIGITS) + '/'
             + stack_name
             + '_ov' + str(ov_number).zfill(OV_DIGITS)
             + '_s' + str(slice_counter).zfill(SLICE_DIGITS)
             + '.tif')
 
 def get_ov_debris_save_path(stack_name, ov_number, slice_counter, sw_counter):
-    return ('overviews\\debris\\'
+    return ('overviews/debris/'
             + stack_name
             + '_ov' + str(ov_number).zfill(OV_DIGITS)
             + '_s' + str(slice_counter).zfill(SLICE_DIGITS)
@@ -113,24 +113,24 @@ def get_ov_debris_save_path(stack_name, ov_number, slice_counter, sw_counter):
             + '.tif')
 
 def get_tile_save_path(stack_name, grid_number, tile_number, slice_counter):
-    return ('tiles\\g' + str(grid_number).zfill(GRID_DIGITS)
-            + '\\t' + str(tile_number).zfill(TILE_DIGITS)
-            + '\\' + stack_name
+    return ('tiles/g' + str(grid_number).zfill(GRID_DIGITS)
+            + '/t' + str(tile_number).zfill(TILE_DIGITS)
+            + '/' + stack_name
             + '_g' + str(grid_number).zfill(GRID_DIGITS)
             + '_t' + str(tile_number).zfill(TILE_DIGITS)
             + '_s' + str(slice_counter).zfill(SLICE_DIGITS)
             + '.tif')
 
 def get_tile_preview_save_path(grid_number, tile_number):
-    return ('workspace\\g' + str(grid_number).zfill(GRID_DIGITS)
+    return ('workspace/g' + str(grid_number).zfill(GRID_DIGITS)
             + '_t' + str(tile_number).zfill(TILE_DIGITS) + '.png')
 
 def get_tile_reslice_save_path(grid_number, tile_number):
-    return ('workspace\\reslices\\r_g' + str(grid_number).zfill(GRID_DIGITS)
+    return ('workspace/reslices/r_g' + str(grid_number).zfill(GRID_DIGITS)
             + '_t' + str(tile_number).zfill(TILE_DIGITS) + '.png')
 
 def get_ov_reslice_save_path(ov_number):
-    return ('workspace\\reslices\\r_OV'
+    return ('workspace/reslices/r_OV'
             + str(ov_number).zfill(OV_DIGITS) + '.png')
 
 def get_tile_id(grid_number, tile_number, slice_number):

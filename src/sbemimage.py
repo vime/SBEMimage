@@ -37,7 +37,12 @@ def main():
     """
     SBEMimage = QApplication(sys.argv)
     app_id = 'SBEMimage ' + VERSION
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+    
+    try:
+    	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+    except:
+    	pass
+
     colorama.init()
     os.system('cls')
     os.system('title SBEMimage - Console')
@@ -49,8 +54,8 @@ def main():
     configuration_loaded = False
     default_configuration = False
 
-    if (os.path.isfile('..\\cfg\\default.ini')
-            and os.path.isfile('..\\cfg\\system.cfg')):
+    if (os.path.isfile( os.path.join('..', 'cfg', 'default.ini'))
+            and os.path.isfile( os.path.join('..', 'cfg', 'system.cfg') )):
         # Ask user to select .ini file:
         startup_dialog = ConfigDlg(VERSION)
         startup_dialog.exec_()
@@ -67,7 +72,7 @@ def main():
                 print('Loading configuration file %s ...'
                       % config_file, end='')
                 config = ConfigParser()
-                with open('..\\cfg\\' + config_file, 'r') as file:
+                with open(os.path.join('..', 'cfg', config_file), 'r') as file:
                     config.read_file(file)
                 print(' Done.\n')
                 # Load corresponding system settings file
@@ -78,7 +83,7 @@ def main():
                 print('Loading system settings file %s ...'
                       % sysconfig_file, end='')
                 sysconfig = ConfigParser()
-                with open('..\\cfg\\' + sysconfig_file, 'r') as file:
+                with open(os.path.join('..', 'cfg', sysconfig_file), 'r') as file:
                     sysconfig.read_file(file)
                 configuration_loaded = True
                 print(' Done.\n')
@@ -121,8 +126,8 @@ def main():
                 print('Configuration loaded and checked: ' + ch_str + '\n')
             # Remove status file. It will be recreated when program terminates
             # normally.
-            if os.path.isfile('..\\cfg\\status.dat'):
-                os.remove('..\\cfg\\status.dat')
+            if os.path.isfile(os.path.join('..', 'cfg', 'status.dat')):
+                os.remove(os.path.join('..', 'cfg', 'status.dat'))
             print('Initializing SBEMimage. Please wait...\n')
             # Launch Main Controls. Viewport is launched from Main Controls.
             SBEMimage_main_window = MainControls(config,

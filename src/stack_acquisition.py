@@ -130,7 +130,7 @@ class Stack():
                                      self.cfg['monitoring']['cc_user_email']]
         self.base_dir = self.cfg['acq']['base_dir']
         # Extract the name of the stack from the base directory:
-        self.stack_name = self.base_dir[self.base_dir.rfind('\\') + 1:]
+        self.stack_name = self.base_dir[self.base_dir.rfind('/') + 1:]
         self.viewport_filename = None
         # Mirror drive: same folder, only drive letter changes:
         self.mirror_drive = self.cfg['sys']['mirror_drive']
@@ -261,7 +261,7 @@ class Stack():
         """Create subdirectories given in dir_list in the base folder"""
         try:
             for dir_name in dir_list:
-                new_dir = self.base_dir + '\\' + dir_name
+                new_dir = self.base_dir + '/' + dir_name
                 if not os.path.exists(new_dir):
                     os.makedirs(new_dir)
             return True
@@ -272,7 +272,7 @@ class Stack():
         """Mirror subdirectories given in dir_list"""
         try:
             for dir_name in dir_list:
-                new_mirror_dir = self.mirror_drive_directory + '\\' + dir_name
+                new_mirror_dir = self.mirror_drive_directory + '/' + dir_name
                 if not os.path.exists(new_mirror_dir):
                     os.makedirs(new_mirror_dir)
             return True
@@ -308,25 +308,25 @@ class Stack():
         """Set up and mirror all subdirectories for the stack acquisition"""
         subdirectory_list = [
             'meta',
-            'meta\\logs',
-            'meta\\stats',
+            'meta/logs',
+            'meta/stats',
             'overviews',
-            'overviews\\stub',
-            'overviews\\debris',
+            'overviews/stub',
+            'overviews/debris',
             'tiles',
             'workspace',
-            'workspace\\viewport',
-            'workspace\\reslices'
+            'workspace/viewport',
+            'workspace/reslices'
         ]
         # Add subdirectories for overviews, grids, tiles:
         for ov_number in range(self.ovm.get_number_ov()):
-            ov_dir = 'overviews\\ov' + str(ov_number).zfill(utils.OV_DIGITS)
+            ov_dir = 'overviews/ov' + str(ov_number).zfill(utils.OV_DIGITS)
             subdirectory_list.append(ov_dir)
         for grid_number in range(self.gm.get_number_grids()):
-            grid_dir = 'tiles\\g' + str(grid_number).zfill(utils.GRID_DIGITS)
+            grid_dir = 'tiles/g' + str(grid_number).zfill(utils.GRID_DIGITS)
             subdirectory_list.append(grid_dir)
             for tile_number in self.gm.get_active_tiles(grid_number):
-                tile_dir = grid_dir + '\\t' + str(
+                tile_dir = grid_dir + '/t' + str(
                     tile_number).zfill(utils.TILE_DIGITS)
                 subdirectory_list.append(tile_dir)
         # Create the directories:
@@ -346,7 +346,7 @@ class Stack():
         timestamp = str(datetime.datetime.now())[:22].translate(
             {ord(i):None for i in ' :.'})
         # Save current configuration file with timestamp in log folder:
-        config_filename = (self.base_dir + '\\meta\\logs\\config_'
+        config_filename = (self.base_dir + '/meta/logs/config_'
                            + timestamp + '.txt')
         f = open(config_filename, 'w')
         self.cfg.write(f)
@@ -354,26 +354,26 @@ class Stack():
         # Save current grid setup:
         gridmap_filename = self.gm.save_grid_setup(timestamp)
         # Create main log file:
-        self.main_log_filename = (self.base_dir + '\\meta\\logs\\'
+        self.main_log_filename = (self.base_dir + '/meta/logs/'
                                   + 'log_' + timestamp + '.txt')
         # A buffer_size of 1 ensures that all log entries are immediately
         # written to disk:
         buffer_size = 1
         self.main_log_file = open(self.main_log_filename, 'w', buffer_size)
         # Set up imagelist file:
-        self.imagelist_filename = (self.base_dir + '\\meta\\logs\\'
+        self.imagelist_filename = (self.base_dir + '/meta/logs/'
                                    + 'imagelist_' + timestamp + '.txt')
         self.imagelist_file = open(self.imagelist_filename, 'w')
         # Log files for debris and errors:
-        self.debris_log_filename = (self.base_dir + '\\meta\\logs\\'
+        self.debris_log_filename = (self.base_dir + '/meta/logs/'
                                     + 'debris_log_' + timestamp + '.txt')
         self.debris_log_file = open(self.debris_log_filename,
                                     'w', buffer_size)
-        self.error_log_filename = (self.base_dir + '\\meta\\logs\\'
+        self.error_log_filename = (self.base_dir + '/meta/logs/'
                                    + 'error_log_' + timestamp + '.txt')
         self.error_log_file = open(self.error_log_filename, 'w', buffer_size)
 
-        self.metadata_filename = (self.base_dir + '\\meta\\logs\\'
+        self.metadata_filename = (self.base_dir + '/meta/logs/'
                                     + 'metadata_' + timestamp + '.txt')
         self.metadata_file = open(self.metadata_filename, 'w', buffer_size)
 
@@ -665,7 +665,7 @@ class Stack():
                 self.cfg['acq']['grids_acquired'] = '[]'
 
             # Save current viewport:
-            self.viewport_filename = (self.base_dir + '\\workspace\\viewport\\'
+            self.viewport_filename = (self.base_dir + '/workspace/viewport/'
                 + self.stack_name + '_viewport_' + 's'
                 + str(self.slice_counter).zfill(utils.SLICE_DIGITS) + '.png')
             self.transmit_cmd('GRAB VP SCREENSHOT' + self.viewport_filename)
@@ -911,7 +911,7 @@ class Stack():
                 missing_list.append(self.viewport_filename)
         if (self.cfg['monitoring']['send_ov'] == 'True'):
             for ov_number in ov_list:
-                save_path = self.base_dir + '\\' + utils.get_ov_save_path(
+                save_path = self.base_dir + '/' + utils.get_ov_save_path(
                             self.stack_name, ov_number, self.slice_counter)
                 if os.path.isfile(save_path):
                     attachment_list.append(save_path)
@@ -921,7 +921,7 @@ class Stack():
         if (self.cfg['monitoring']['send_tiles'] == 'True'):
             for tile_key in tile_list:
                 [grid_number, tile_number] = tile_key.split('.')
-                save_path = self.base_dir + '\\' + utils.get_tile_save_path(
+                save_path = self.base_dir + '/' + utils.get_tile_save_path(
                             self.stack_name, grid_number, tile_number,
                             self.slice_counter)
                 if os.path.isfile(save_path):
@@ -930,7 +930,7 @@ class Stack():
                     (r_width, r_height) = tile_image.size
                     cropped_tile_filename = (
                         self.base_dir
-                        + '\\workspace\\tile_g'
+                        + '/workspace/tile_g'
                         + str(grid_number).zfill(utils.GRID_DIGITS)
                         + 't' + str(tile_number).zfill(utils.TILE_DIGITS)
                         + '_cropped.tif')
@@ -944,13 +944,13 @@ class Stack():
 
         if self.cfg['monitoring']['send_ov_reslices'] == 'True':
             for ov_number in ov_list:
-                save_path = (self.base_dir + '\\'
+                save_path = (self.base_dir + '/'
                              + utils.get_ov_reslice_save_path(ov_number))
                 if os.path.isfile(save_path):
                     ov_reslice_img = Image.open(save_path)
                     height = ov_reslice_img.size[1]
                     cropped_ov_reslice_save_path = (
-                        self.base_dir + '\\workspace\\reslice_OV'
+                        self.base_dir + '/workspace/reslice_OV'
                         + str(ov_number).zfill(utils.OV_DIGITS) + '.png')
                     if height>1000:
                         ov_reslice_img.crop(0, height-1000, 400, height).save(
@@ -965,14 +965,14 @@ class Stack():
         if self.cfg['monitoring']['send_tile_reslices'] == 'True':
             for tile_key in tile_list:
                 [grid_number, tile_number] = tile_key.split('.')
-                save_path = (self.base_dir + '\\'
+                save_path = (self.base_dir + '/'
                              + utils.get_tile_reslice_save_path(
                              grid_number, tile_number))
                 if os.path.isfile(save_path):
                     reslice_img = Image.open(save_path)
                     height = reslice_img.size[1]
                     cropped_reslice_save_path = (
-                        self.base_dir + '\\workspace\\reslice_tile_g'
+                        self.base_dir + '/workspace/reslice_tile_g'
                         + str(grid_number).zfill(utils.GRID_DIGITS)
                         + 't' + str(tile_number).zfill(utils.TILE_DIGITS)
                         + '.png')
@@ -1094,7 +1094,7 @@ class Stack():
                         (ov_wd + self.wd_delta) * 1000))
             # Path and filename of overview image to be acquired:
             ov_save_path = (self.base_dir
-                            + '\\'
+                            + '/'
                             + utils.get_ov_save_path(self.stack_name,
                                                      ov_number,
                                                      self.slice_counter))
@@ -1122,7 +1122,7 @@ class Stack():
                         'CTRL: OV: M:'
                         + '{0:.2f}'.format(mean)
                         + ', SD:' + '{0:.2f}'.format(stddev))
-                    workspace_save_path = (self.base_dir + '\\workspace\\OV'
+                    workspace_save_path = (self.base_dir + '/workspace/OV'
                                            + str(ov_number).zfill(3) + '.bmp')
                     imsave(workspace_save_path, ov_img)
                     self.ovm.update_ov_file_list(ov_number, workspace_save_path)
@@ -1187,8 +1187,8 @@ class Stack():
 
     def save_debris_image(self, ov_file_name, sweep_counter):
         debris_save_path = (self.base_dir
-                            + '\\overviews\\debris\\'
-                            + ov_file_name[ov_file_name.rfind('\\') + 1:-4]
+                            + '/overviews/debris/'
+                            + ov_file_name[ov_file_name.rfind('/') + 1:-4]
                             + '_' + str(sweep_counter) + '.tif')
         # Copy current ov_file, TODO: error handling
         shutil.copy(ov_file_name, debris_save_path)
@@ -1225,7 +1225,7 @@ class Stack():
         tile_img = None
         relative_save_path = utils.get_tile_save_path(
             self.stack_name, grid_number, tile_number, self.slice_counter)
-        save_path = (self.base_dir + '\\' + relative_save_path)
+        save_path = (self.base_dir + '/' + relative_save_path)
         tile_id = str(grid_number) + '.' + str(tile_number)
         tile_accepted = False  # meaning if True: tile quality is ok
         tile_selected = False  # meaning if False: tile discarded

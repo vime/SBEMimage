@@ -74,8 +74,8 @@ class Viewport(QWidget):
         self.setMouseTracking(True)
 
     def load_gui(self):
-        loadUi('..\\gui\\viewport.ui', self)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        loadUi('../gui/viewport.ui', self)
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setWindowTitle('SBEMimage - Viewport')
         # Display current settings:
         self.setFixedSize(self.size())
@@ -126,19 +126,19 @@ class Viewport(QWidget):
     def update_measure_buttons(self):
         if self.mv_measure_active:
             self.pushButton_measureMosaic.setIcon(
-                QIcon('..\\img\\measure-active.png'))
+                QIcon('../img/measure-active.png'))
             self.pushButton_measureMosaic.setIconSize(QSize(16, 16))
         else:
             self.pushButton_measureMosaic.setIcon(
-                QIcon('..\\img\\measure.png'))
+                QIcon('../img/measure.png'))
             self.pushButton_measureMosaic.setIconSize(QSize(16, 16))
         if self.sv_measure_active:
             self.pushButton_measureSlice.setIcon(
-                QIcon('..\\img\\measure-active.png'))
+                QIcon('../img/measure-active.png'))
             self.pushButton_measureSlice.setIconSize(QSize(16, 16))
         else:
             self.pushButton_measureSlice.setIcon(
-                QIcon('..\\img\\measure.png'))
+                QIcon('../img/measure.png'))
             self.pushButton_measureSlice.setIconSize(QSize(16, 16))
 
     def grab_viewport_screenshot(self, save_path_filename):
@@ -493,7 +493,7 @@ class Viewport(QWidget):
         self.pushButton_acquireStubOV.clicked.connect(
             self.mv_acquire_stub_overview)
         self.pushButton_measureMosaic.clicked.connect(self.mv_toggle_measure)
-        self.pushButton_measureMosaic.setIcon(QIcon('..\\img\\measure.png'))
+        self.pushButton_measureMosaic.setIcon(QIcon('../img/measure.png'))
         self.pushButton_measureMosaic.setIconSize(QSize(16, 16))
         # Slider for zoom:
         self.horizontalSlider_MV.valueChanged.connect(self.mv_adjust_scale)
@@ -1076,7 +1076,7 @@ class Viewport(QWidget):
                     if tile_visible:
                         # load current tile preview:
                         tile_preview_filename = (
-                            base_dir + '\\'
+                            base_dir + '/'
                             + utils.get_tile_preview_save_path(grid_number, tile))
                         if os.path.exists(tile_preview_filename):
                             tile_img = QPixmap(tile_preview_filename)
@@ -1572,7 +1572,7 @@ class Viewport(QWidget):
 
         self.pushButton_reloadSV.clicked.connect(self.sv_load_slices)
         self.pushButton_measureSlice.clicked.connect(self.sv_toggle_measure)
-        self.pushButton_measureSlice.setIcon(QIcon('..\\img\\measure.png'))
+        self.pushButton_measureSlice.setIcon(QIcon('../img/measure.png'))
         self.pushButton_measureSlice.setIconSize(QSize(16, 16))
         self.pushButton_sliceBWD.clicked.connect(self.sv_slice_bwd)
         self.pushButton_sliceFWD.clicked.connect(self.sv_slice_fwd)
@@ -1819,12 +1819,12 @@ class Viewport(QWidget):
         self.lcdNumber_sliceIndicator.display(0)
         start_slice = int(self.cfg['acq']['slice_counter'])
         base_dir = self.cfg['acq']['base_dir']
-        stack_name = base_dir[base_dir.rfind('\\') + 1:]
+        stack_name = base_dir[base_dir.rfind('/') + 1:]
 
         slices_loaded = False
         if self.sv_current_ov >= 0:
             for i in range(0, -self.max_slices, -1):
-                filename = (base_dir + '\\'
+                filename = (base_dir + '/'
                             + utils.get_ov_save_path(
                             stack_name, self.sv_current_ov, start_slice + i))
                 if os.path.isfile(filename):
@@ -1838,7 +1838,7 @@ class Viewport(QWidget):
             selected_tile = self.gm.get_active_tiles(
                 self.sv_current_grid)[self.sv_current_tile]
             for i in range(0, -self.max_slices, -1):
-                filename = (base_dir + '\\'
+                filename = (base_dir + '/'
                             + utils.get_tile_save_path(
                             stack_name, self.sv_current_grid, selected_tile,
                             start_slice + i))
@@ -2312,7 +2312,7 @@ class Viewport(QWidget):
         if self.m_current_ov >= 0:
             # get current data:
             filename = (self.cfg['acq']['base_dir']
-                        + '\\workspace\\reslices\\r_OV'
+                        + '/workspace/reslices/r_OV'
                         + str(self.m_current_ov).zfill(utils.OV_DIGITS)
                         + '.png')
         elif self.m_current_tile >= 0:
@@ -2321,7 +2321,7 @@ class Viewport(QWidget):
             tile_key = ('g' + str(self.m_current_grid).zfill(utils.GRID_DIGITS)
                         + '_t' + str(tile_number).zfill(utils.TILE_DIGITS))
             filename = (self.cfg['acq']['base_dir']
-                        + '\\workspace\\reslices\\r_' + tile_key + '.png')
+                        + '/workspace/reslices/r_' + tile_key + '.png')
         canvas = self.reslice_canvas_template.copy()
         if filename is not None and os.path.isfile(filename):
             current_reslice = QPixmap(filename)
@@ -2382,7 +2382,7 @@ class Viewport(QWidget):
         if self.m_current_ov >= 0:
             # get current data:
             filename = (self.cfg['acq']['base_dir']
-                        + '\\meta\\stats\\OV'
+                        + '/meta/stats/OV'
                         + str(self.m_current_ov).zfill(utils.OV_DIGITS)
                         + '.dat')
         elif self.m_current_tile >= 0:
@@ -2391,7 +2391,7 @@ class Viewport(QWidget):
             tile_key = ('g' + str(self.m_current_grid).zfill(utils.GRID_DIGITS)
                         + '_t' + str(tile_number).zfill(utils.TILE_DIGITS))
             filename = (self.cfg['acq']['base_dir']
-                        + '\\meta\\stats\\' + tile_key + '.dat')
+                        + '/meta/stats/' + tile_key + '.dat')
         if filename is not None and os.path.isfile(filename):
             with open(filename, 'r') as file:
                 for line in file:
@@ -2567,15 +2567,15 @@ class Viewport(QWidget):
             success = False
             path = ''
             if self.m_current_ov >= 0:
-                path = (base_dir + '\\overviews\\ov'
+                path = (base_dir + '/overviews/ov'
                         + str(self.m_current_ov).zfill(utils.OV_DIGITS))
 
             elif self.m_current_tile >= 0:
                 tile_number = self.gm.get_active_tiles(
                     self.m_current_grid)[self.m_current_tile]
-                path = (base_dir + '\\tiles\\g'
+                path = (base_dir + '/tiles/g'
                         + str(self.m_current_grid).zfill(utils.GRID_DIGITS)
-                        + '\\t' + str(tile_number).zfill(utils.TILE_DIGITS))
+                        + '/t' + str(tile_number).zfill(utils.TILE_DIGITS))
 
             if os.path.exists(path):
                 filenames = next(os.walk(path))[2]
@@ -2583,19 +2583,19 @@ class Viewport(QWidget):
                     filenames = filenames[-165:]
                 if filenames:
                     if self.m_selected_slice_number is None:
-                        selected_file = path + '\\' + filenames[-1]
+                        selected_file = path + '/' + filenames[-1]
                     else:
                         slice_number_str = (
                             's' + str(self.m_selected_slice_number).zfill(
                                 utils.SLICE_DIGITS))
                         for filename in filenames:
                             if slice_number_str in filename:
-                                selected_file = path + '\\' + filename
+                                selected_file = path + '/' + filename
                                 break
 
         else:
             # Use current image in SmartSEM
-            selected_file = base_dir + '\\workspace\\current_frame.tif'
+            selected_file = base_dir + '/workspace/current_frame.tif'
             self.sem.save_frame(selected_file)
             self.m_reset_view()
             self.m_tab_populated = False

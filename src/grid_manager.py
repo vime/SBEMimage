@@ -581,7 +581,7 @@ class GridManager(object):
 
     def save_grid_setup(self, timestamp):
         # This assumes that base directory and logs subdirectory have already been created
-        file_name = self.cfg['acq']['base_dir'] + '\\meta\\logs\\' + \
+        file_name = self.cfg['acq']['base_dir'] + '/meta/logs/' + \
                     'gridmap_' + timestamp + '.txt'
         grid_map_file = open(file_name, 'w')
         for i in range(0, self.number_grids):

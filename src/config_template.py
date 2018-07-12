@@ -15,11 +15,11 @@
 
 # The following constants must be updated if entries are added to or
 # deleted from the default configuration files
-CFG_TEMPLATE_FILE = '..\\cfg\\default.ini'
+CFG_TEMPLATE_FILE = '../cfg/default.ini'
 CFG_NUMBER_SECTIONS = 10
 CFG_NUMBER_KEYS = 176
 
-SYSCFG_TEMPLATE_FILE = '..\\cfg\\system.cfg'
+SYSCFG_TEMPLATE_FILE = '../cfg/system.cfg'
 SYSCFG_NUMBER_SECTIONS = 7
 SYSCFG_NUMBER_KEYS = 19
 

@@ -51,10 +51,10 @@ class ConfigDlg(QDialog):
 
     def __init__(self, VERSION):
         super(ConfigDlg, self).__init__()
-        loadUi('..\\gui\\config_dlg.ui', self)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        loadUi('../gui/config_dlg.ui', self)
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.label_version.setText('Version ' + VERSION)
-        self.labelIcon.setPixmap(QPixmap('..\\img\\logo.png'))
+        self.labelIcon.setPixmap(QPixmap('../img/logo.png'))
         self.label_website.setText('<a href="https://github.com/SBEMimage">'
                                    'https://github.com/SBEMimage</a>')
         self.label_website.setOpenExternalLinks(True)
@@ -63,13 +63,13 @@ class ConfigDlg(QDialog):
         self.abort = False
         # Populate the list widget with existing .ini files
         inifile_list = []
-        for file in os.listdir('..\\cfg'):
+        for file in os.listdir('../cfg'):
             if file.endswith('.ini'):
                 inifile_list.append(file)
         self.listWidget_filelist.addItems(inifile_list)
         # Which .ini file was used previously? Check in status.dat
-        if os.path.isfile('..\\cfg\\status.dat'):
-            status_file = open('..\\cfg\\status.dat', 'r')
+        if os.path.isfile('../cfg/status.dat'):
+            status_file = open('../cfg/status.dat', 'r')
             last_inifile = status_file.readline()
             status_file.close()
             try:
@@ -118,9 +118,9 @@ class SaveConfigDlg(QDialog):
 
     def __init__(self):
         super(SaveConfigDlg, self).__init__()
-        loadUi('..\\gui\\save_config_dlg.ui', self)
+        loadUi('../gui/save_config_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.lineEdit_cfgFileName.setText('')
@@ -155,9 +155,9 @@ class SEMSettingsDlg(QDialog):
     def __init__(self, sem):
         super(SEMSettingsDlg, self).__init__()
         self.sem = sem
-        loadUi('..\\gui\\sem_settings_dlg.ui', self)
+        loadUi('../gui/sem_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Display current target settings:
@@ -182,9 +182,9 @@ class MicrotomeSettingsDlg(QDialog):
     def __init__(self, microtome):
         super(MicrotomeSettingsDlg, self).__init__()
         self.microtome = microtome
-        loadUi('..\\gui\\microtome_settings_dlg.ui', self)
+        loadUi('../gui/microtome_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
 
@@ -235,9 +235,9 @@ class CalibrationDlg(QDialog):
         self.microtome = microtome
         self.sem = sem
         self.current_eht = self.sem.get_eht()
-        loadUi('..\\gui\\calibration_dlg.ui', self)
+        loadUi('../gui/calibration_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.lineEdit_EHT.setText(str(self.current_eht))
@@ -296,15 +296,15 @@ class CalibrationDlg(QDialog):
         self.sem.apply_frame_settings(4, 10, 0.8)
         start_x, start_y = self.microtome.get_stage_xy(1)
         # First image:
-        self.sem.acquire_frame(self.base_dir + '\\start.tif')
+        self.sem.acquire_frame(self.base_dir + '/start.tif')
         # X shift:
         self.microtome.move_stage_to_xy((start_x + shift, start_y))
         # Second image:
-        self.sem.acquire_frame(self.base_dir + '\\shift_x.tif')
+        self.sem.acquire_frame(self.base_dir + '/shift_x.tif')
         # Y shift:
         self.microtome.move_stage_to_xy((start_x, start_y + shift))
         # Third image:
-        self.sem.acquire_frame(self.base_dir + '\\shift_y.tif')
+        self.sem.acquire_frame(self.base_dir + '/shift_y.tif')
         # Back to initial position:
         self.microtome.move_stage_to_xy((start_x, start_y))
 
@@ -380,9 +380,9 @@ class OVSettingsDlg(QDialog):
         self.sem = sem
         self.current_ov = current_ov
         self.settings_changed = False
-        loadUi('..\\gui\\overview_settings_dlg.ui', self)
+        loadUi('../gui/overview_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Set up OV selector:
@@ -497,18 +497,18 @@ class ImportImageDlg(QDialog):
         self.cs = cs
         self.target_dir = target_dir
         super(ImportImageDlg, self).__init__()
-        loadUi('..\\gui\\import_image_dlg.ui', self)
+        loadUi('../gui/import_image_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.pushButton_selectFile.clicked.connect(self.select_file)
-        self.pushButton_selectFile.setIcon(QIcon('..\\img\\selectdir.png'))
+        self.pushButton_selectFile.setIcon(QIcon('../img/selectdir.png'))
         self.pushButton_selectFile.setIconSize(QSize(16, 16))
 
     def select_file(self):
         # Let user select image to be imported:
-        start_path = 'C:\\'
+        start_path = 'C:/'
         selected_file = str(QFileDialog.getOpenFileName(
                 self, 'Select image',
                 start_path,
@@ -516,7 +516,7 @@ class ImportImageDlg(QDialog):
                 )[0])
         if len(selected_file) > 0:
             # Replace forward slashes with backward slashes:
-            selected_file = selected_file.replace('/', '\\')
+            selected_file = selected_file.replace('/', '/')
             self.lineEdit_fileName.setText(selected_file)
             self.lineEdit_name.setText(
                 os.path.splitext(os.path.basename(selected_file))[0])
@@ -528,7 +528,7 @@ class ImportImageDlg(QDialog):
         timestamp = str(datetime.datetime.now())
         # Remove some characters from timestap to get valid file name:
         timestamp = timestamp[:19].translate({ord(c): None for c in ' :-.'})
-        target_path = (self.target_dir + '\\'
+        target_path = (self.target_dir + '/'
                        + os.path.splitext(selected_filename)[0]
                        + '_' + timestamp + '.png')
         if os.path.isfile(selected_path):
@@ -585,9 +585,9 @@ class AdjustImageDlg(QDialog):
         self.main_window_trigger = main_window_trigger
         self.selected_img = selected_img
         super(AdjustImageDlg, self).__init__()
-        loadUi('..\\gui\\adjust_imported_image_dlg.ui', self)
+        loadUi('../gui/adjust_imported_image_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.lineEdit_selectedImage.setText(
@@ -634,9 +634,9 @@ class DeleteImageDlg(QDialog):
     def __init__(self, ovm):
         self.ovm = ovm
         super(DeleteImageDlg, self).__init__()
-        loadUi('..\\gui\\delete_image_dlg.ui', self)
+        loadUi('../gui/delete_image_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Populate the list widget with existing imported images:
@@ -662,9 +662,9 @@ class GridSettingsDlg(QDialog):
         self.sem = sem
         self.current_grid = current_grid
         self.settings_changed = False
-        loadUi('..\\gui\\grid_settings_dlg.ui', self)
+        loadUi('../gui/grid_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Set up grid selector:
@@ -849,13 +849,13 @@ class AdaptiveFocusSettingsDlg(QDialog):
         super(AdaptiveFocusSettingsDlg, self).__init__()
         self.gm = gm
         self.current_grid = current_grid
-        loadUi('..\\gui\\adaptive_focus_settings_dlg.ui', self)
+        loadUi('../gui/adaptive_focus_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.lineEdit_currentGrid.setText('Grid ' + str(current_grid))
-        self.grid_illustration.setPixmap(QPixmap('..\\img\\grid.png'))
+        self.grid_illustration.setPixmap(QPixmap('../img/grid.png'))
         self.af_tiles = self.gm.get_adaptive_focus_tiles(self.current_grid)
         # Backup variable for currently selected adaptive focus tiles:
         self.prev_af_tiles = self.af_tiles.copy()
@@ -969,13 +969,13 @@ class AcqSettingsDlg(QDialog):
         super(AcqSettingsDlg, self).__init__()
         self.cfg = config
         self.stack = stack
-        loadUi('..\\gui\\acq_settings_dlg.ui', self)
+        loadUi('../gui/acq_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.pushButton_selectDir.clicked.connect(self.select_directory)
-        self.pushButton_selectDir.setIcon(QIcon('..\\img\\selectdir.png'))
+        self.pushButton_selectDir.setIcon(QIcon('../img/selectdir.png'))
         self.pushButton_selectDir.setIconSize(QSize(16, 16))
         # Display current settings:
         self.lineEdit_baseDir.setText(self.cfg['acq']['base_dir'])
@@ -1005,14 +1005,14 @@ class AcqSettingsDlg(QDialog):
         if len(self.cfg['acq']['base_dir']) > 2:
             start_path = self.cfg['acq']['base_dir'][:3]
         else:
-            start_path = 'C:\\'
+            start_path = 'C:/'
         directory = str(QFileDialog.getExistingDirectory(
                             self, 'Select Directory',
                             start_path,
                             QFileDialog.ShowDirsOnly))
         if len(directory) > 0:
             # Replace forward slashes with backward slashes:
-            directory = directory.replace('/', '\\')
+            directory = directory.replace('/', '/')
             self.lineEdit_baseDir.setText(directory)
             self.cfg['acq']['base_dir'] = directory
 
@@ -1076,9 +1076,9 @@ class PreStackDlg(QDialog):
         self.cfg = config
         self.ovm = ovm
         self.gm = gm
-        loadUi('..\\gui\\pre_stack_dlg.ui', self)
+        loadUi('../gui/pre_stack_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Different labels if stack is paused ('Continue' instead of 'Start'):
@@ -1090,7 +1090,7 @@ class PreStackDlg(QDialog):
         boldFont.setBold(True)
         # Show the most relevant current settings for the acquisition:
         base_dir = self.cfg['acq']['base_dir']
-        self.label_stackName.setText(base_dir[base_dir.rfind('\\') + 1:])
+        self.label_stackName.setText(base_dir[base_dir.rfind('/') + 1:])
         self.label_beamSettings.setText(
             self.cfg['sem']['eht'] + ' keV, '
             + self.cfg['sem']['beam_current'] + ' pA')
@@ -1165,9 +1165,9 @@ class PauseDlg(QDialog):
 
     def __init__(self):
         super(PauseDlg, self).__init__()
-        loadUi('..\\gui\\pause_dlg.ui', self)
+        loadUi('../gui/pause_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.pause_type = 0
@@ -1196,9 +1196,9 @@ class ExportDlg(QDialog):
     def __init__(self, config):
         super(ExportDlg, self).__init__()
         self.cfg = config
-        loadUi('..\\gui\\export_dlg.ui', self)
+        loadUi('../gui/export_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.pushButton_export.clicked.connect(self.export_list)
         self.spinBox_untilSlice.setValue(int(self.cfg['acq']['slice_counter']))
@@ -1214,7 +1214,7 @@ class ExportDlg(QDialog):
         imagelist_str = []
         imagelist_data = []
         file_list = glob.glob(self.cfg['acq']['base_dir']
-                              + '\\meta\\logs\\'  'imagelist*.txt')
+                              + '/meta/logs/'  'imagelist*.txt')
         file_list.sort()
         for file in file_list:
             with open(file) as f:
@@ -1242,7 +1242,7 @@ class ExportDlg(QDialog):
             # Write to output file:
             try:
                 output_file = (self.cfg['acq']['base_dir'] +
-                               '\\trakem2_imagelist_slice' + str(start_slice) +
+                               '/trakem2_imagelist_slice' + str(start_slice) +
                                'to' + str(end_slice) + '.txt')
                 with open(output_file, 'w') as f:
                     for item in imagelist_data:
@@ -1282,9 +1282,9 @@ class EmailMonitoringSettingsDlg(QDialog):
         super(EmailMonitoringSettingsDlg, self).__init__()
         self.cfg = config
         self.stack = stack
-        loadUi('..\\gui\\email_monitoring_settings_dlg.ui', self)
+        loadUi('../gui/email_monitoring_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.lineEdit_notificationEmail.setText(
@@ -1394,9 +1394,9 @@ class DebrisSettingsDlg(QDialog):
         super(DebrisSettingsDlg, self).__init__()
         self.cfg = config
         self.ovm = ovm
-        loadUi('..\\gui\\debris_settings_dlg.ui', self)
+        loadUi('../gui/debris_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Detection area:
@@ -1491,9 +1491,9 @@ class AskUserDlg(QDialog):
 
     def __init__(self):
         super(AskUserDlg, self).__init__()
-        loadUi('..\\gui\\ask_user_dlg.ui', self)
+        loadUi('../gui/ask_user_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
 
@@ -1505,9 +1505,9 @@ class MirrorDriveDlg(QDialog):
     def __init__(self, config):
         super(MirrorDriveDlg, self).__init__()
         self.cfg = config
-        loadUi('..\\gui\\mirror_drive_settings_dlg.ui', self)
+        loadUi('../gui/mirror_drive_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.available_drives = []
@@ -1556,9 +1556,9 @@ class ImageMonitoringSettingsDlg(QDialog):
     def __init__(self, config):
         super(ImageMonitoringSettingsDlg, self).__init__()
         self.cfg = config
-        loadUi('..\\gui\\image_monitoring_settings_dlg.ui', self)
+        loadUi('../gui/image_monitoring_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.spinBox_meanMin.setValue(
@@ -1616,9 +1616,9 @@ class AutofocusSettingsDlg(QDialog):
     def __init__(self, autofocus):
         super(AutofocusSettingsDlg, self).__init__()
         self.af = autofocus
-        loadUi('..\\gui\\autofocus_settings_dlg.ui', self)
+        loadUi('../gui/autofocus_settings_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         if self.af.get_method() == 0:
@@ -1698,7 +1698,7 @@ class PlasmaCleanerDlg(QDialog):
     def __init__(self, plc_):
         super(PlasmaCleanerDlg, self).__init__()
         self.plc = plc_
-        loadUi('..\\gui\\plasma_cleaner_dlg.ui', self)
+        loadUi('../gui/plasma_cleaner_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
         self.setWindowIcon(QIcon('icon.ico'))
         self.setFixedSize(self.size())
@@ -1768,9 +1768,9 @@ class ApproachDlg(QDialog):
         self.microtome = microtome
         self.main_window_queue = main_window_queue
         self.main_window_trigger = main_window_trigger
-        loadUi('..\\gui\\approach_dlg.ui', self)
+        loadUi('../gui/approach_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Set up trigger and queue to update dialog GUI during approach:
@@ -1947,9 +1947,9 @@ class GrabFrameDlg(QDialog):
         self.main_window_trigger = main_window_trigger
         self.finish_trigger = Trigger()
         self.finish_trigger.s.connect(self.scan_complete)
-        loadUi('..\\gui\\grab_frame_dlg.ui', self)
+        loadUi('../gui/grab_frame_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         timestamp = str(datetime.datetime.now())
@@ -1991,7 +1991,7 @@ class GrabFrameDlg(QDialog):
            time and GUI should not freeze.
         """
         self.scan_success = self.sem.acquire_frame(
-            self.cfg['acq']['base_dir'] + '\\' + self.file_name + '.tif')
+            self.cfg['acq']['base_dir'] + '/' + self.file_name + '.tif')
         self.finish_trigger.s.emit()
 
     def scan_complete(self):
@@ -2021,7 +2021,7 @@ class GrabFrameDlg(QDialog):
         """Save the image currently visible in SmartSEM."""
         self.file_name = self.lineEdit_filename.text()
         success = self.sem.save_frame(
-            self.cfg['acq']['base_dir'] + '\\' + self.file_name + '.tif')
+            self.cfg['acq']['base_dir'] + '/' + self.file_name + '.tif')
         if success:
             self.add_to_log('CTRL: Single frame saved by user.')
             QMessageBox.information(
@@ -2051,9 +2051,9 @@ class EHTDlg(QDialog):
     def __init__(self, sem):
         super(EHTDlg, self).__init__()
         self.sem = sem
-        loadUi('..\\gui\\eht_dlg.ui', self)
+        loadUi('../gui/eht_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.pushButton_on.clicked.connect(self.turn_on)
@@ -2118,9 +2118,9 @@ class FTSetParamsDlg(QDialog):
     def __init__(self, sem, current_wd, current_stig_x, current_stig_y):
         super(FTSetParamsDlg, self).__init__()
         self.sem = sem
-        loadUi('..\\gui\\focus_tool_set_params_dlg.ui', self)
+        loadUi('../gui/focus_tool_set_params_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.pushButton_getFromSmartSEM.clicked.connect(self.get_from_sem)
@@ -2165,9 +2165,9 @@ class MotorTestDlg(QDialog):
         self.microtome = microtome
         self.main_window_queue = main_window_queue
         self.main_window_trigger = main_window_trigger
-        loadUi('..\\gui\\motor_test_dlg.ui', self)
+        loadUi('../gui/motor_test_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         # Set up trigger and queue to update dialog GUI during approach:
@@ -2264,7 +2264,7 @@ class MotorTestDlg(QDialog):
         current_x, current_y = 0, 0
         current_z = self.start_z
         # Open log file:
-        logfile = open(self.cfg['acq']['base_dir'] + '\\motor_test_log.txt',
+        logfile = open(self.cfg['acq']['base_dir'] + '/motor_test_log.txt',
                        'w', buffering=1)
         while self.test_in_progress:
             # Start random walk
@@ -2336,9 +2336,9 @@ class StubOVDlg(QDialog):
                  sem, microtome, ovm, cs,
                  main_window_queue, main_window_trigger):
         super(StubOVDlg, self).__init__()
-        loadUi('..\\gui\\stub_ov_dlg.ui', self)
+        loadUi('../gui/stub_ov_dlg.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.setFixedSize(self.size())
         self.show()
         self.base_dir = base_dir
@@ -2503,10 +2503,10 @@ class AboutBox(QDialog):
 
     def __init__(self, VERSION):
         super(AboutBox, self).__init__()
-        loadUi('..\\gui\\about_box.ui', self)
+        loadUi('../gui/about_box.ui', self)
         self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowIcon(QIcon('..\\img\\icon_16px.ico'))
+        self.setWindowIcon(QIcon('../img/icon_16px.ico'))
         self.label_version.setText('Version ' + VERSION)
-        self.labelIcon.setPixmap(QPixmap('..\\img\\logo.png'))
+        self.labelIcon.setPixmap(QPixmap('../img/logo.png'))
         self.setFixedSize(self.size())
         self.show()

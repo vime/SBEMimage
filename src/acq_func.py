@@ -47,7 +47,7 @@ def acquire_ov(base_dir, selection, sem, microtome, ovm, cs, queue, trigger):
             sem.apply_frame_settings(ovm.get_ov_size_selector(i),
                                      ovm.get_ov_pixel_size(i),
                                      ovm.get_ov_dwell_time(i))
-            save_path = base_dir + '\\workspace\\OV' + str(i).zfill(3) + '.bmp'
+            save_path = base_dir + '/workspace/OV' + str(i).zfill(3) + '.bmp'
             success = sem.acquire_frame(save_path)
             if success:
                 ovm.update_ov_file_list(i, save_path)
@@ -118,7 +118,7 @@ def acquire_stub_ov(base_dir, slice_counter, sem, microtome, pos, size_selector,
                 # Show new stage coordinates in main control window:
                 queue.put('UPDATE STAGEPOS')
                 trigger.s.emit()
-                save_path = (base_dir + '\\workspace\\stub'
+                save_path = (base_dir + '/workspace/stub'
                             + str(col) + str(row) + '.bmp')
                 success = sem.acquire_frame(save_path)
                 if success:
@@ -136,14 +136,14 @@ def acquire_stub_ov(base_dir, slice_counter, sem, microtome, pos, size_selector,
 
         # Write full mosaic to disk unless acq aborted:
         if not aborted:
-            if not os.path.exists(base_dir + '\\overviews\\stub'):
-                os.makedirs(base_dir + '\\overviews\\stub')
-            base_dir_name = base_dir[base_dir.rfind('\\') + 1:].translate(
+            if not os.path.exists(base_dir + '/overviews/stub'):
+                os.makedirs(base_dir + '/overviews/stub')
+            base_dir_name = base_dir[base_dir.rfind('/') + 1:].translate(
                                 {ord(c): None for c in ' '})
             timestamp = str(datetime.datetime.now())
             # Remove some characters from timestap to get valid file name:
             timestamp = timestamp[:19].translate({ord(c): None for c in ' :-.'})
-            stub_mosaic_file_name = (base_dir + '\\overviews\\stub\\'
+            stub_mosaic_file_name = (base_dir + '/overviews/stub/'
                                      + base_dir_name + '_stubOV_'
                                      + 's' + str(slice_counter).zfill(5)
                                      + '_' + timestamp + '.png')

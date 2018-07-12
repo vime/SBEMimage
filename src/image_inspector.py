@@ -118,7 +118,7 @@ class ImageInspector(object):
 
             # Save preview image:
             preview = imresize(img, (384, 512))
-            imsave(self.base_dir + '\\workspace\\' + tile_key + '.png', preview)
+            imsave(self.base_dir + '/workspace/' + tile_key + '.png', preview)
 
             # Save reslice line in memory:
             # Take a 400-px line from centre of the image:
@@ -182,14 +182,14 @@ class ImageInspector(object):
         tile_key = ('g' + str(grid_number).zfill(utils.GRID_DIGITS)
                     + '_' + 't' + str(tile_number).zfill(utils.TILE_DIGITS))
         # Write mean, stddev to file:
-        stat_filename = self.base_dir + '\\meta\\stats\\' + tile_key + '.dat'
+        stat_filename = self.base_dir + '/meta/stats/' + tile_key + '.dat'
         with open(stat_filename, 'a') as file:
             file.write(str(slice_number).zfill(utils.SLICE_DIGITS)
                        + ';' + str(self.tile_means[tile_key][-1][1])
                        + ';' + str(self.tile_stddevs[tile_key][-1][1]) + '\n')
 
         # Open reslice file if it exists:
-        reslice_filename = (self.base_dir + '\\workspace\\reslices\\r_'
+        reslice_filename = (self.base_dir + '/workspace/reslices/r_'
                             + tile_key + '.png')
         if os.path.isfile(reslice_filename):
             reslice_img = np.array(Image.open(reslice_filename))
@@ -260,7 +260,7 @@ class ImageInspector(object):
 
     def save_ov_reslice_and_stats(self, ov_number, slice_number):
         # Write mean, stddev to file:
-        stats_filename = (self.base_dir + '\\meta\\stats\\OV'
+        stats_filename = (self.base_dir + '/meta/stats/OV'
                           + str(ov_number).zfill(utils.OV_DIGITS) + '.dat')
         with open(stats_filename, 'a') as file:
             file.write(str(slice_number) + ';'
@@ -270,7 +270,7 @@ class ImageInspector(object):
         # Reslice:
         # Open reslice file if it exists:
         reslice_filename = (self.base_dir
-                            + '\\workspace\\reslices\\r_OV'
+                            + '/workspace/reslices/r_OV'
                             + str(ov_number).zfill(utils.OV_DIGITS)
                             + '.png')
         if os.path.isfile(reslice_filename):
